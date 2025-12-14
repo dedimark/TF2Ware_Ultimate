@@ -180,9 +180,6 @@ function Ware_LoadConfigBossgames()
 					// we winga
 					AppendElementIfUnique(lines, "wega_challenge")
 					break
-				case 2:
-					AppendElementIfUnique(lines, "smash_arena")
-					break			
 			}
 		}
 	})
@@ -228,13 +225,6 @@ function Ware_LoadConfigSpecialRounds()
 				case 6:
 					AppendElementIfUnique(lines, "no_text")
 					break
-				case 7:
-					AppendElementIfUnique(lines, "silent_hill")
-					AppendElementIfUnique(lines, "skates")
-					break	
-				case 8:
-					AppendElementIfUnique(lines, "noclip")
-					break					
 			}
 		}
 	})
@@ -395,7 +385,6 @@ function Ware_LoadConfig()
 	Ware_SpecialRounds     <- []
 	Ware_FakeSpecialRounds <- []
 	Ware_GameOverlays      <- []
-	Ware_Skyboxes          <- []
 	
 	Ware_LoadConfigSettings()
 	Ware_LoadConfigMinigames()
@@ -403,7 +392,6 @@ function Ware_LoadConfig()
 	Ware_LoadConfigSpecialRounds()
 	Ware_LoadConfigList("fake_specialrounds", Ware_FakeSpecialRounds)	
 	Ware_LoadConfigList("overlays", Ware_GameOverlays)	
-	Ware_LoadConfigList("skyboxes", Ware_Skyboxes)
 	Ware_LoadConfigThemes()
 	Ware_LoadConfigMeleeAttributes()
 }

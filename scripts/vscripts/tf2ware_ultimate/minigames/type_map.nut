@@ -51,11 +51,6 @@ maps <-
 first <- false
 map <- null
 
-function OnPick()
-{
-	return !Ware_IsSpecialRoundSet("thirdperson") // TODO: why the fuck does this break but not the other typing ones
-}
-
 function OnPrecache()
 {
 	PrecacheModel(map_model)

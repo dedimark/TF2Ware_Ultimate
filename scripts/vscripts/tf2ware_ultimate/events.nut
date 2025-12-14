@@ -230,13 +230,12 @@ function OnGameEvent_teamplay_round_start(params)
 	Ware_ToggleTruce(true)
 
 	Ware_MinigameRotation.clear()
+
 	Ware_ReloadMinigameRotation(false)
 	
 	// special rounds always occur every N rounds
 	// don't do two special rounds in a row (checks for special round from last round and then clears it, unless it's forced)
 	local begin_intermission = true
-	
-	local skybox = "tf2ware_sky"
 	
 	if (Ware_DebugNextSpecialRound.len() > 0 ||
 		Ware_SpecialRoundNext ||
@@ -246,16 +245,11 @@ function OnGameEvent_teamplay_round_start(params)
 		Ware_SpecialRoundNext = false
 		if (Ware_BeginSpecialRound())
 			begin_intermission = false
-			
-		if (Ware_Skyboxes.len() > 0)
-			skybox = RandomElement(Ware_Skyboxes)
 	}
 	else
 	{
 		Ware_SpecialRoundPrevious = false
 	}
-	
-	SetSkyboxTexture(skybox)
 	
 	// special rounds decide their own intermission delay
 	if (begin_intermission)
@@ -267,9 +261,8 @@ function OnGameEvent_teamplay_round_start(params)
 // called only on mp_restartgame
 function OnGameEvent_scorestats_accumulated_reset(params)
 {
-	// save current timelimit and rounds play
+	// save current timelimit
 	Ware_MapResetTimer = GetPropFloat(GameRules, "m_flMapResetTime")
-	Ware_MapRoundsPlayed = GetPropInt(GameRules, "m_nRoundsPlayed")
 }
 
 // called right before the map is reset for a new round
@@ -280,13 +273,6 @@ function OnGameEvent_scorestats_accumulated_update(params)
 		// restore timelimit
 		SetPropFloat(GameRules, "m_flMapResetTime", Ware_MapResetTimer)
 		Ware_MapResetTimer = null
-	}
-	
-	if (Ware_MapRoundsPlayed != null)
-	{
-		// restore rounds played (for mp_maxrounds)
-		SetPropInt(GameRules, "m_nRoundsPlayed", Ware_MapRoundsPlayed)
-		Ware_MapRoundsPlayed = null		
 	}
 	
 	if (Ware_Minigame) // when restarted mid-minigame
@@ -418,6 +404,7 @@ function OnGameEvent_player_spawn(params)
 	}
 	
 	local data = player.GetScriptScope().ware_data
+
 	data.attributes.clear()
 	
 	if (params.team & TF_TEAM_MASK)
@@ -427,7 +414,7 @@ function OnGameEvent_player_spawn(params)
 		
 		if (!data.start_sound)
 			EntityEntFire(player, "CallScriptFunction", "Ware_PlayStartSound", 1.0)
-		
+			
 		EntityEntFire(player, "CallScriptFunction", "Ware_PlayerPostSpawn")
 		
 		player.AddHudHideFlags(HIDEHUD_BUILDING_STATUS|HIDEHUD_CLOAK_AND_FEIGN|HIDEHUD_PIPES_AND_CHARGE)
@@ -457,24 +444,25 @@ function OnGameEvent_post_inventory_application(params)
 	local player = GetPlayerFromUserID(params.userid)
 	if (player == null)
 		return
-		
+         
 	// this is to fix persisting attributes if restarting mid-minigame
 	local data = player.GetScriptScope().ware_data
 	local melee = data.melee
 	if (melee && melee.IsValid())
 	{
-		foreach (attribute, value in data.melee_attributes)
-			melee.RemoveAttribute(attribute)
+	
+			foreach (attribute, value in data.melee_attributes)
+					melee.RemoveAttribute(attribute)
 	}
-	data.melee_attributes.clear()	
-		
-	local melee = Ware_ParseLoadout(player)		
+	data.melee_attributes.clear()        
+			
+	local melee = Ware_ParseLoadout(player)                
 	if (melee && !Ware_Finished)
-		Ware_ModifyMeleeAttributes(melee)
-					
+			Ware_ModifyMeleeAttributes(melee)
+									
 	if (Ware_Minigame != null)
-		Ware_Minigame.cb_on_player_inventory(player)
-		
+			Ware_Minigame.cb_on_player_inventory(player)
+	
 	if (Ware_SpecialRound)
 		Ware_SpecialRound.cb_on_player_inventory(player)
 }
@@ -522,7 +510,7 @@ function OnGameEvent_player_death(params)
 			player.GetScriptScope().ware_data.suicided = true
 	}
 		
-	if (Ware_Minigame.fail_on_death == true && !Ware_MinigameEnded)
+	if (Ware_Minigame.fail_on_death == truee && !Ware_MinigameEnded)
 	{
 		if (player)
 			Ware_PassPlayer(player, false)
@@ -576,6 +564,32 @@ function OnGameEvent_localplayer_pickup_weapon(params)
 	// used to fix status meters not showing up in minigames
 	// this event is clientside and server won't allow sending it.. usually
 	// workaround: define this empty listener
+}
+
+function OnGameEvent_tf_map_time_remaining(params)
+{
+	if ("tf2ware_ultimate" in params && params.tf2ware_ultimate)
+	{
+		local routine = params.routine
+		local client = params.client
+		local score = params.score
+		
+		if (routine == "score")
+		{
+			local player = PlayerInstanceFromIndex(client)
+			
+			if (player)
+			{
+				local scope = player.GetScriptScope()
+
+				if (!("ware_data" in scope))
+					return
+
+				Ware_GetPlayerData(player).score = score
+				//Ware_ChatPrint(null, "{player} score set to {int}", player, score)
+			}
+		}
+	}
 }
 
 if (!Ware_Plugin) // plugin calls Ware_PlayerSay directly

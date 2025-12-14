@@ -241,7 +241,7 @@ function Ware_SetPlayerLoadout(player, player_class, items = null, item_attribut
 		{
 			local last_item = items[items.len() - 1]
 			foreach (item in items)
-				Ware_GivePlayerWeapon(player, item, item_attributes, switch_weapon && item == last_item)
+				Ware_GivePlayerWeapon(player, item, {}, switch_weapon && item == last_item)
 		}
 		else
 		{

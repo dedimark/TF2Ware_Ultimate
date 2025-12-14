@@ -8,7 +8,6 @@ special_round <- Ware_SpecialRoundData
 })
 
 local touch_dmg = false
-local grace = false
 
 function OnStart()
 {
@@ -23,9 +22,6 @@ function OnPlayerSpawn(player)
 
 function OnPlayerTouch(player1, player2)
 {
-	if(grace)
-		return
-	
 	if (Ware_Minigame || Ware_Finished)
 	{
 		touch_dmg = true	
@@ -50,10 +46,4 @@ function OnTakeDamage(params)
 {
 	if (touch_dmg)
 		params.force_friendly_fire = true
-}
-
-function OnMinigameStart()
-{
-	grace = true
-	Ware_CreateTimer(function(){grace = false}, Min(1.0, Ware_Minigame.duration / 4))
 }

@@ -39,7 +39,6 @@ function OnStart()
 			{
 				weapon = Ware_GivePlayerWeapon(player, "Beggar's Bazooka", {"clip size bonus" : 100, "reload time decreased": 0.5, "deploy time increased": 1, "damage bonus": 1.25})
 			}
-			player.SetHealth(1850)
 		}
 		else if (Ware_MinigameMode == 1)
 		{
@@ -54,6 +53,7 @@ function OnStart()
 			player.SetHealth(1250)
 		}
 		player.SetRageMeter(0)
+		player.SetHealth(1850)
 	}
 	
 	Ware_UpdateWeaponMeters()
@@ -63,7 +63,7 @@ function OnUpdate()
 {
 	foreach (player in Ware_MinigamePlayers)
 	{
-		if (player.IsRageDraining() || player.InCond(TF_COND_ENERGY_BUFF) || player.InCond(TF_COND_SODAPOPPER_HYPE))
+		if (player.IsRageDraining() && player.IsAlive())
 			Ware_PassPlayer(player, true)
 	}
 }
@@ -73,8 +73,6 @@ function OnCleanup()
 	foreach (player in Ware_MinigamePlayers)
 	{
 		player.SetRageMeter(0)
-		player.RemoveCond(TF_COND_ENERGY_BUFF)
-		player.RemoveCond(TF_COND_SODAPOPPER_HYPE)
 		SetPropBool(player, "m_Shared.m_bRageDraining", false)
 		player.AddHudHideFlags(HIDEHUD_CLOAK_AND_FEIGN)
 	}

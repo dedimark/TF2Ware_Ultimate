@@ -1,7 +1,11 @@
 DEVELOPER_STEAMID3 <-
 {
-	"[U:1:53275741]"  : 1 // ficool2
-	"[U:1:111328277]" : 1 // pokemonPasta
+	"[U:1:263156248]"  : 1 // Where
+	"[U:1:74072482]" : 1 // dedimark
+	"[U:1:1124215318]" : 1 // Noctis
+	"[U:1:181596356]" : 1 // CrazyShootin
+	"[U:1:96642636]" : 1 // G2J Ounaide
+	"[U:1:1107793534]" : 1  // Mothy
 }
 
 function Ware_DevCommandTitle(player)
@@ -123,8 +127,7 @@ Ware_DevCommands <-
 			"Ware_DebugForceBossgameOnce",
 			"Ware_DebugNextTheme",
 			"Ware_DebugForceTheme",
-			"Ware_DebugNextSpecialRound",
-			"Ware_DebugForceMode"
+			"Ware_DebugNextSpecialRound"
 		]
 		foreach(var in vars)
 		{
@@ -133,10 +136,6 @@ Ware_DevCommands <-
 				ClientPrint(player, HUD_PRINTCONSOLE, format("* %s = \"%s\"", var, value))
 			else if (typeof(value) == "bool")
 				ClientPrint(player, HUD_PRINTCONSOLE, format("* %s = %s", var, value ? "true" : "false"))
-			else if (typeof(value) == "integer")
-				ClientPrint(player, HUD_PRINTCONSOLE, format("* %s = %d", var, value))
-			else if (value == null)
-				ClientPrint(player, HUD_PRINTCONSOLE, format("* %s = null", var))
 		}
 		Ware_ChatPrint(player, "Values printed to console.")
 	}
@@ -252,6 +251,11 @@ Ware_DevCommands <-
 					if (target != player)
 						Ware_ChatPrint(target, "{str} has given you {int} points", Ware_DevCommandTitle(player), points)
 					Ware_GetPlayerData(target).score += points
+					Ware_EventCallback("updatescore", 
+					{
+						player = target.entindex().tochar()
+						score = Ware_GetPlayerData(target).score
+					})
 				}
 				else
 				{

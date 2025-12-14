@@ -3,7 +3,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""_default""
 	visual_name = ""TF2Ware Ultimate""
-	author = [""pokemonPasta"", ""ficool2"", ""Mecha the Slag""]
 	sounds = 
 	{
 		// if any are 0.0 they arent used for intermission timings yet
@@ -25,7 +24,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""_tf2ware_classic""
 	visual_name = ""TF2Ware Classic"" // one of the OG slagware themes, this one seems to be original to tf2ware.
-	author = ""Mecha the Slag"" // TODO: who actually made this?
 	sounds = 
 	{
 		""failure"": 2.377
@@ -37,7 +35,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""3ds_ashley""
 	visual_name = ""Ashley (3DS)""
-	author = ""pokemonPasta""
 	sounds = 
 	{
 		""failure"": 1.968
@@ -49,7 +46,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""3ds_jimmyt""
 	visual_name = ""Jimmy T. (3DS)""
-	author = ""pokemonPasta""
 	sounds = 
 	{
 		""failure"": 2.08
@@ -61,7 +57,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_diy_orbulon""
 	visual_name = ""Orbulon (DS - D.I.Y.)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""boss"":     4.119
@@ -76,7 +71,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_diy_shuffle""
 	visual_name = ""Shuffle (WiiWare - D.I.Y. Showcase)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""boss"":     4.008
@@ -106,7 +100,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_diy_warioman"" // from DIY showcase, should that be counted separately?
 	visual_name = ""Wario-Man (WiiWare - D.I.Y. Showcase)"" // another of the classic tf2ware themes, this is one of the ones used in tonyware
-	author = ""TonyBaretta""
 	sounds = 
 	{
 		""boss"":     4.004
@@ -121,7 +114,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_touched_jimmyt""
 	visual_name = ""Jimmy T. (DS - Touched!)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""failure"": 2.1
@@ -145,7 +137,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_touched_wario""
 	visual_name = ""Wario (DS - Touched!)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""failure"": 2.003
@@ -157,7 +148,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""ds_touched_warioman""
 	visual_name = ""Wario-Man (DS - Touched!)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""failure"": 1.977
@@ -193,7 +183,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""wii_9volt""
 	visual_name = ""9-Volt (Wii)""
-	author = ""pokemonPasta""
 	sounds = 
 	{
 		""failure"": 2.013
@@ -205,7 +194,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""wii_18volt""
 	visual_name = ""18-Volt (Wii)"" // this is just the 9volt intro cutscene, but it's a tonyware classic. dunno what else to call it.
-	author = ""TonyBaretta""
 	sounds = 
 	{
 		""failure"":  2.005
@@ -218,7 +206,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""wii_katandana""
 	visual_name = ""Kat & Ana (Wii)""
-	author = ""pokemonPasta""
 	sounds = 
 	{
 		""failure"": 2.00
@@ -230,7 +217,6 @@ buffer<-@"VERSION 4
 {
 	theme_name = ""wii_mona""
 	visual_name = ""Mona (Wii)""
-	author = ""Gemidyne""
 	sounds = 
 	{
 		""failure"": 2.000

@@ -1,0 +1,94 @@
+"Games"
+{
+	"tf"
+	{
+		// note: all gamedata here is optional and not required for the gamemode to function
+		"Offsets"
+		{
+			// loadout whitelister
+			"CTFPlayer::InitClass"	
+			{
+				"windows"	"489"
+				"windows64"	"489"
+				"linux"		"496"
+				"linux64"	"496"
+			}
+			// temporary to track down weapon bug
+			"CBaseEntity::FVisible"	
+			{
+				"windows"	"149"
+				"windows64"	"149"
+				"linux"		"149"
+				"linux64"	"149"
+			}
+		}
+		"Signatures"
+		{
+			// loadout whitelister
+			"CTFPlayer::GetLoadoutItem"
+			{
+				"library"		"server"
+				"windows"		"\x55\x8B\xEC\x83\xEC\x10\x53\x56\x8B\xF1\x8B\x0D\x2A\x2A\x2A\x2A"
+				"windows64"		"\x48\x89\x5C\x24\x2A\x48\x89\x6C\x24\x2A\x48\x89\x74\x24\x2A\x44\x88\x4C\x24\x2A\x57\x41\x54"
+				"linux"			"@_ZN9CTFPlayer14GetLoadoutItemEiib"
+				"linux64"		"@_ZN9CTFPlayer14GetLoadoutItemEiib"				
+			}
+		}
+		"Functions"
+		{
+			// loadout whitelister
+			"CTFPlayer::InitClass"
+			{
+				"offset"	"CTFPlayer::InitClass"
+				"hooktype"	"entity"
+				"return"	"void"
+				"this"		"entity"
+			}
+			"CTFPlayer::GetLoadoutItem"
+			{
+				"signature"		"CTFPlayer::GetLoadoutItem"
+				"callconv"		"thiscall"
+				"return"		"charptr" // objectptr
+				"this"			"entity"
+				"arguments"
+				{
+					"class"
+					{
+						"type"	"int"
+					}
+					"slot"
+					{
+						"type"	"int"
+					}
+					"print_failure"
+					{
+						"type"	"bool"
+					}
+				}
+			}	
+			// temporary to track down weapon bug
+			"CBaseEntity::FVisible"
+			{
+				"offset"	"CBaseEntity::FVisible"
+				"hooktype"	"entity"
+				"return"	"bool"
+				"this"		"entity"
+				"arguments"
+				{
+					"entity"
+					{
+						"type"	"cbaseentity"
+					}
+					"mask"
+					{
+						"type"	"int"
+					}
+					"blocker"
+					{
+						"type"	"objectptr"
+					}
+				}				
+			}			
+		}
+	}
+}

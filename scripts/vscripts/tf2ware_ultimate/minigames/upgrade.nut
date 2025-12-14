@@ -1,7 +1,3 @@
-
-// NOTE: This minigame is disabled in default config due to edict issues from valve's shitty upgrade code
-// Re-enable at your own peril.
-
 MISSION_DAMAGE <- 0
 MISSION_RESIST <- 1
 MISSION_RATE   <- 2
@@ -223,11 +219,6 @@ function OnCleanup()
 	{
 		player.GrantOrRemoveAllUpgrades(true, false)
 		player.SetCurrency(0)
-		for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-		{
-			if (wearable.GetClassname() == "tf_powerup_bottle")
-				EntityEntFire(wearable, "Kill") // if something breaks with this, set the m_usNumCharges netprop to 0 instead.
-		}
 	}
 	give_loadout = false
 	

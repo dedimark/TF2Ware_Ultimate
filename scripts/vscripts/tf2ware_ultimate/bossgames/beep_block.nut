@@ -13,6 +13,7 @@ minigame <- Ware_MinigameData
 	duration       = 130.0
 	end_delay      = 1.1
 	location       = RandomElement(arenas)
+	music          = "beepblockskyway"
 	fail_on_death  = true
 	start_freeze   = 0.5
 	convars =
@@ -28,6 +29,10 @@ beat             <- 0.0
 bgm_offset       <- 0.0
 interrupted      <- false
 interrupt_timer  <- FLT_MAX
+
+// audio
+if (RandomInt(0, 9) == 0)
+	minigame.music = "beepblockskyway-twelve"
 
 beep_sound <- Ware_FixupMP3("tf2ware_ultimate/v%d/beep_block_beep.mp3")
 swap_sound <- Ware_FixupMP3("tf2ware_ultimate/v%d/beep_block_door.mp3")
@@ -58,6 +63,17 @@ function OnPrecache()
 
 function OnStart()
 {
+	if (minigame.music == "beepblockskyway")
+	{
+		BeepBlock_SetTempo(120.0)
+		bgm_offset = 0.028
+	}
+	else
+	{
+		BeepBlock_SetTempo(140.0)
+		bgm_offset = -0.097
+	}
+	
 	Ware_SetGlobalLoadout(TF_CLASS_ENGINEER)
 	
 	// fixes tilting from fall damage on ramp near the end of _ultimate arena

@@ -1229,9 +1229,4 @@ ITEM_MAP <-
         id = 30758
         classname = "saxxy"
     }
-	"Taunt: Texan Trickshot":
-    {
-        id = 31520
-        classname = "tf_weapon_revolver"
-    }
 }

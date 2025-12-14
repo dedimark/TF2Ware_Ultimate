@@ -220,7 +220,6 @@ if (!("Ware_Precached" in this))
 
 	Ware_RoundsPlayed             <- 0
 	Ware_MapResetTimer            <- null
-	Ware_MapRoundsPlayed		  <- null
 	
 	Ware_Theme              	  <- Ware_Themes[0]
 	Ware_CurrentThemeSounds 	  <- {}
@@ -338,7 +337,7 @@ function Ware_PrecacheNext()
 {
 	local authors = {}
 	local music_minigame = {}, music_bossgame = {}
-
+	
 	local AddAuthor = function(author, folder)
 	{
 		local list = author
@@ -354,14 +353,13 @@ function Ware_PrecacheNext()
 					minigames     = 0
 					bossgames     = 0
 					specialrounds = 0
-					themes        = 0
 				}
 			}
 				
 			authors[author][folder]++
 		}
 	}
-	
+
 	local PrecacheFile = function(folder, name)
 	{
 		local scope = {}	
@@ -423,7 +421,7 @@ function Ware_PrecacheNext()
 		}
 		else if ("special_round" in scope)
 		{
-			if (scope.special_round.category != null)
+			if ("category" in scope.special_round)
 			{
 				local category = scope.special_round.category
 				if (category == "")
@@ -461,9 +459,6 @@ function Ware_PrecacheNext()
 	
 	foreach (theme in Ware_Themes)
 	{
-		if("author" in theme)
-			AddAuthor(theme.author, "themes")
-		
 		foreach (key, value in theme.sounds)
 			PrecacheSound(format("tf2ware_ultimate/v%d/music_game/%s/%s.mp3", WARE_MP3_VERSION, theme.theme_name, key))
 	}
@@ -472,7 +467,7 @@ function Ware_PrecacheNext()
 		foreach (key, value in theme.sounds)
 			PrecacheSound(format("tf2ware_ultimate/v%d/music_game/%s/%s.mp3", WARE_MP3_VERSION, theme.theme_name, key))
 	}
-		
+
 	foreach (author, credits in authors)
 	{
 		if (!(author in Ware_Authors))
@@ -483,11 +478,9 @@ function Ware_PrecacheNext()
 		if (credits.bossgames > 0)
 			Ware_Authors[author].append(format("%d Bossgame%s", credits.bossgames, credits.bossgames == 1 ? "" : "s"))		
 		if (credits.specialrounds > 0)
-			Ware_Authors[author].append(format("%d Special Round%s", credits.specialrounds,  credits.specialrounds == 1 ? "" : "s"))
-		if (credits.themes > 0)
-			Ware_Authors[author].append(format("%d Theme%s", credits.themes, credits.themes == 1 ? "" : "s"))			
+			Ware_Authors[author].append(format("%d Special Round%s", credits.specialrounds,  credits.specialrounds == 1 ? "" : "s"))			
 	}
-	
+		
 	printf("[TF2Ware] Precached %d minigames, %d bossgames, %d special rounds\n", 
 		Ware_Minigames.len(), Ware_Bossgames.len(), Ware_SpecialRounds.len())
 
@@ -782,7 +775,7 @@ function Ware_ShowCredits(player, full)
 				if (i < last)
 					text += ", "
 			}
-			ClientPrint(player, HUD_PRINTCONSOLE, format("* %16s - %s", author, text))
+			ClientPrint(player, HUD_PRINTCONSOLE, format("* %s - %s", author, text))
 		}
 	}
 	else
@@ -1206,8 +1199,6 @@ function Ware_BeginSpecialRoundInternal()
 			
 			CreateTimer(function()
 			{	
-				Ware_CriticalZone = true
-				
 				Ware_SpecialRound = special_round
 					
 				Ware_SetupSpecialRoundCallbacks()	
@@ -1227,8 +1218,6 @@ function Ware_BeginSpecialRoundInternal()
 				
 				// TODO this doesn't work with double_trouble
 				Ware_SpecialRoundEvents = CollectGameEventsInScope(Ware_SpecialRoundScope)
-				
-				Ware_CriticalZone = false
 					
 				CreateTimer(@() Ware_ShowSpecialRoundText(Ware_Players), 0.0)			
 				CreateTimer(function() 
@@ -2215,8 +2204,7 @@ function Ware_GameOverInternal()
 	if (winner_count > 0)
 		top_score = top_players[0].GetScriptScope().ware_data.score
 	
-	local restart_delay = GetConvarValue("mp_bonusroundtime").tofloat()
-	
+	local delay = GetConvarValue("mp_bonusroundtime").tofloat()
 	Ware_ToggleTruce(false)
 	Ware_ToggleRespawnRooms(false)
 	
@@ -2228,7 +2216,7 @@ function Ware_GameOverInternal()
 		local player = data.player
 		Ware_PlayGameSound(player, "gameover")
 		player.SetScriptOverlayMaterial("hud/tf2ware_ultimate/default_failure")
-		player.StunPlayer(restart_delay, 0.5, TF_STUN_LOSER_STATE|TF_STUN_NO_EFFECTS, null)
+		player.StunPlayer(delay, 0.5, TF_STUN_LOSER_STATE|TF_STUN_NO_EFFECTS, null)
 	}
 	
 	Ware_TogglePlayerLoadouts(true)
@@ -2239,7 +2227,7 @@ function Ware_GameOverInternal()
 		player_winner_indices += data.index.tochar()
 
 		player.Regenerate(true)
-		player.AddCondEx(TF_COND_CRITBOOSTED, restart_delay, null)
+		player.AddCondEx(TF_COND_CRITBOOSTED, delay, null)
 		Ware_PlayGameSound(player, "gameclear")
 		player.SetScriptOverlayMaterial("hud/tf2ware_ultimate/default_victory")
 		player.AcceptInput("SpeakResponseConcept", "TLK_PLAYER_BATTLECRY randomnum:100", null, null)
@@ -2300,14 +2288,8 @@ function Ware_GameOverInternal()
 			bonus = ware_data.bonus
 		}
 		
-		player_scores += score.tostring()
-		player_bonuses += bonus.tostring()
-		
-		if (i < MAX_CLIENTS)
-		{
-			player_scores += " "
-			player_bonuses += " "
-		}
+		player_scores += score.tochar()
+		player_bonuses += bonus.tochar()
 	}
 	
 	Ware_EventCallback("game_over", 
@@ -2450,7 +2432,6 @@ function Ware_OnPlayerSay(player, text)
 	{
 		local len = text.find(" ")
 		local cmd = len != null ? text.slice(6, len) : text.slice(6)
-		cmd = cmd.tolower()
 		if (cmd in Ware_DevCommands)
 		{
 			if (/*GetPlayerSteamID3(player) in DEVELOPER_STEAMID3 ||*/

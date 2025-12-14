@@ -1,5 +1,14 @@
+
 // TODO: Adjust knockback as needed
-alive_players <- []
+
+center <- Ware_MinigameLocation.center * 1.0
+respawn_vectors <- [
+	Vector(4365, 2630, -11400)
+	Vector(2865, 2630, -11400)
+	Vector(3615, 3380, -11400)
+	Vector(3615, 1880, -11400)
+]
+alive_players <- clone(Ware_MinigamePlayers)
 
 minigame <- Ware_MinigameData
 ({
@@ -35,20 +44,12 @@ function OnStart()
 	}
 }
 
-function RemovePlayer(player)
-{
-	local idx = alive_players.find(player)
-	if (idx != null)
-		alive_players.remove(idx)
-}
-
 function OnTakeDamage(params)
 {
 	local victim = params.const_entity
 	if(victim.IsPlayer())
 	{
 		local attacker = params.attacker
-		local inflictor = params.inflictor
 		if (attacker && attacker.IsPlayer())
 		{
 			local data = Ware_GetPlayerMiniData(victim)
@@ -58,36 +59,26 @@ function OnTakeDamage(params)
 			local kb = Min(data.sum_damage * kb_scale, 1000.0)
 			
 			Ware_SlapEntity(victim, kb)
-			params.damage = 1.0
+			params.damage = 0.0
 		}
-		else if (params.damage_type & DMG_FALL)
-		{
-			if (!inflictor || inflictor.GetClassname() != "trigger_hurt")
-				params.damage = 0.0
-		}
+		else if ((params.damage_type & DMG_FALL) && params.inflictor.GetClassname() != "trigger_hurt")
+			params.damage = 0.0
 	}
 }
 
 function OnPlayerDeath(player, attacker, params)
 {
-	RemovePlayer(player)
+	local idx = alive_players.find(player)
+	if(idx != null)
+		alive_players.remove(idx)
 	
-	Ware_CreateTimer(function()
-	{
-		if (player.IsValid())
-		{
-			player.ForceRegenerateAndRespawn()
-			Ware_TeleportPlayer(player, RandomElement(Ware_MinigameLocation.respawns), null, vec3_zero)
-		}
+	Ware_CreateTimer(function(){
+		player.ForceRegenerateAndRespawn()
+		Ware_TeleportPlayer(player, RandomElement(respawn_vectors), null, vec3_zero)
 	}, 3.0)
-}
-
-function OnPlayerDisconnect(player)
-{
-	RemovePlayer(player)
 }
 
 function OnCheckEnd()
 {
-	return alive_players.len() <= 1
+	return alive_players.len() < 2
 }

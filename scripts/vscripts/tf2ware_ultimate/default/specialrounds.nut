@@ -1,5 +1,5 @@
 // auto-generated file, do not edit. edit the matching file in the "cfg" folder instead
-buffer<-@"VERSION 8
+buffer<-@"VERSION 6
 adrenaline_shot
 all_in
 barrels
@@ -20,7 +20,6 @@ low_gravity
 math_only
 merasmus
 mirrored_world
-noclip
 no_movingback
 no_text
 non_stop
@@ -31,9 +30,7 @@ reversed_text
 simon
 singleplayer
 size_matters
-skates
 skull
-silent_hill
 slow_mo
 speedrun
 squid_game

@@ -104,8 +104,6 @@ buffer<-@"// atomizer
 	""maxammo secondary reduced"" : 1,
 	""is_a_sword"" : 0
 },	
-// caber
-[307] = { ""single wep deploy time increased"" : 1},
 // killing gloves of boxing
 [43] =
 { 
@@ -160,7 +158,9 @@ buffer<-@"// atomizer
 	""crit does no damage"" : 0,
 	""tickle enemies wielding same weapon"" : 0,
 	""crit forces victim to laugh"" : 0,
-},	
+},
+// HHH axe
+[266] = { ""max health additive penalty"" : 0 },		
 // gunslinger
 [142] = 
 { 
@@ -170,12 +170,7 @@ buffer<-@"// atomizer
 // eureka effect
 [589] = { ""alt fire teleport to spawn"" : 0 },
 // southern hospitality
-[155] = {
-	""dmg taken from fire increased"" : 1,
-	""bleeding duration"": 0
-},	
-// jag
-[329] = { ""fire rate bonus"" : 1.0 },
+[155] = { ""dmg taken from fire increased"" : 1 },	
 // amputator
 [304] =
 { 

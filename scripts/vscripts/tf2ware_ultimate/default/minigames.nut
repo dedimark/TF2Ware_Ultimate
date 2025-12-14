@@ -48,7 +48,6 @@ kart
 land_platform
 laugh
 limbo
-market_garden
 math
 melee_arena
 merasmus
@@ -72,7 +71,6 @@ shoot_gifts
 shoot_target
 simon_says
 sniper_war
-spectate
 spycrab
 stand_near
 stay_ground
@@ -84,7 +82,6 @@ taunt_kill
 teleport
 time_jump
 touch_sky
-trampoline
 treasure_hunt
 trivia
 type_color
@@ -92,6 +89,7 @@ type_map
 type_time
 type_word
 uber
+upgrade
 vacc
 wanted
 watch_fall
